@@ -12,6 +12,10 @@
             <input id="age" type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="age"
                 autocomplete="off">
         </div>
+
+        <div class="input-group flex-nowrap w-50 mb-3 col-md-8 offset-md-2">
+            <ngb-datepicker #dp [(ngModel)]="model" class="form-control" formControlName="todaysDate" />
+        </div>
     </div>
 
     <button type="submit" class="btn btn btn-outline-primary offset-md-2"

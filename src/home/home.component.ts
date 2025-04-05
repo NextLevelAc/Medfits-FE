@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+// import { ReactiveFormsModule } from '@angular/forms';
 import { User } from '../user';// Import the User interface
 import { PostDataService } from '../post-data.service';
+import { NgbCalendar, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgbDatepickerModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true
@@ -21,17 +23,27 @@ export class HomeComponent {
   private formBuilder = inject(FormBuilder);
   private postDataService = inject(PostDataService);
 
+  today = inject(NgbCalendar).getToday();
+
+  model: NgbDateStruct | undefined;
+  date: { year: number; month: number; } | undefined;
+
   profileForm = this.formBuilder.group({
     name: ["", Validators.required],
-    age: [null, [Validators.required, Validators.min(1), this.ageValidator()]]
+    age: [null, [Validators.required, Validators.min(1), this.ageValidator()]],
+    todaysDate: [null, Validators.required]
   })
 
-  getname() {
-    return this.profileForm.get("name")
-  }
+  // getname() {
+  //   return this.profileForm.get("name")
+  // }
 
-  getAge() {
-    return this.profileForm.get("age")
+  // getAge() {
+  //   return this.profileForm.get("age")
+  // }
+
+  getControl(controlName: string) {
+    return this.profileForm.get(controlName);
   }
 
   // Custom validator to ensure age is either a valid number or null
@@ -51,8 +63,9 @@ export class HomeComponent {
     if (this.profileForm.valid) {
       // console.log(this.profileForm.value)
       const formData: User = {
-        name: this.profileForm.value.name || '',  // Fallback to empty string if name is null or undefined
-        age: this.profileForm.value.age ? +this.profileForm.value.age : null, // Convert to number or null
+        name: this.profileForm.value.name || '', // Fallback to empty string if name is null or undefined
+        age: this.profileForm.value.age ? +this.profileForm.value.age : null,
+        date: null
       };
       // const formData: User = this.profileForm.value;
       this.postDataService.postUser(formData).subscribe({
