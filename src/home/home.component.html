@@ -1,0 +1,21 @@
+<form [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
+
+    <div class="position-relative">
+        <div class="input-group flex-nowrap w-50 mb-3 col-md-8 offset-md-2">
+            <span class="input-group-text" id="addon-wrapping">Name</span>
+            <input id="name" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping"
+                formControlName="name" autocomplete="off">
+        </div>
+
+        <div class="input-group flex-nowrap w-50 mb-3 col-md-8 offset-md-2">
+            <span class="input-group-text" id="addon-wrapping">Age</span>
+            <input id="age" type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="age"
+                autocomplete="off">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn btn-outline-primary offset-md-2"
+        [disabled]="profileForm.invalid">Submit</button>
+
+
+</form>
