@@ -31,7 +31,7 @@ export class HomeComponent {
   profileForm = this.formBuilder.group({
     name: ["", Validators.required],
     age: [null, [Validators.required, Validators.min(1), this.ageValidator()]],
-    todaysDate: [null, Validators.required]
+    date: [null, Validators.required]
   })
 
   // getname() {
@@ -60,12 +60,13 @@ export class HomeComponent {
   }
 
   onProfileFormSubmit() {
+    debugger;
     if (this.profileForm.valid) {
       // console.log(this.profileForm.value)
       const formData: User = {
         name: this.profileForm.value.name || '', // Fallback to empty string if name is null or undefined
         age: this.profileForm.value.age ? +this.profileForm.value.age : null,
-        date: null
+        date: this.profileForm.value.date || null
       };
       // const formData: User = this.profileForm.value;
       this.postDataService.postUser(formData).subscribe({
